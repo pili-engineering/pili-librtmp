@@ -13,7 +13,7 @@ Pod::Spec.new do |s|
   s.summary          = "pili-librtmp is a RTMP client library."
   s.homepage         = "https://github.com/pili-engineering/pili-librtmp"
   s.license          = 'LGPL'
-  s.author           = { "0dayZh" => "0day.zh@gmail.com" }
+  s.author           = { "pili" => "pili@qiniu.com" }
   s.source           = { :git => "https://github.com/pili-engineering/pili-librtmp.git", :tag => s.version }
 
   s.platform     = :ios, '7.0'
