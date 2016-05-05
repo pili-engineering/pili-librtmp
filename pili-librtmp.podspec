@@ -14,7 +14,7 @@ Pod::Spec.new do |s|
   s.homepage         = "https://github.com/pili-engineering/pili-librtmp"
   s.license          = 'LGPL'
   s.author           = { "pili" => "pili@qiniu.com" }
-  s.source           = { :git => "https://github.com/pili-engineering/pili-librtmp.git", :tag => s.version }
+  s.source           = { :git => "https://github.com/pili-engineering/pili-librtmp.git", :tag => "v#{s.version}" }
 
   s.platform     = :ios, '7.0'
   s.requires_arc = true
