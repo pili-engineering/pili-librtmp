@@ -14,7 +14,7 @@
             buildForAnalyzing = "YES">
             <BuildableReference
                BuildableIdentifier = "primary"
-               BlueprintIdentifier = "B6D421A41CDC37EA001CB5CA"
+               BlueprintIdentifier = "B6BBAE2C1CDC3E2700F358B8"
                BuildableName = "libpili-librtmp.a"
                BlueprintName = "pili-librtmp"
                ReferencedContainer = "container:pili-librtmp.xcodeproj">
@@ -45,7 +45,7 @@
       <MacroExpansion>
          <BuildableReference
             BuildableIdentifier = "primary"
-            BlueprintIdentifier = "B6D421A41CDC37EA001CB5CA"
+            BlueprintIdentifier = "B6BBAE2C1CDC3E2700F358B8"
             BuildableName = "libpili-librtmp.a"
             BlueprintName = "pili-librtmp"
             ReferencedContainer = "container:pili-librtmp.xcodeproj">
@@ -63,7 +63,7 @@
       <MacroExpansion>
          <BuildableReference
             BuildableIdentifier = "primary"
-            BlueprintIdentifier = "B6D421A41CDC37EA001CB5CA"
+            BlueprintIdentifier = "B6BBAE2C1CDC3E2700F358B8"
             BuildableName = "libpili-librtmp.a"
             BlueprintName = "pili-librtmp"
             ReferencedContainer = "container:pili-librtmp.xcodeproj">

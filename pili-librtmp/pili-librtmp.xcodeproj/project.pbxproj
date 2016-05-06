@@ -7,16 +7,16 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		B6D421C11CDC3821001CB5CA /* amf.c in Sources */ = {isa = PBXBuildFile; fileRef = B6D421B11CDC3821001CB5CA /* amf.c */; };
-		B6D421C21CDC3821001CB5CA /* error.c in Sources */ = {isa = PBXBuildFile; fileRef = B6D421B61CDC3821001CB5CA /* error.c */; };
-		B6D421C31CDC3821001CB5CA /* hashswf.c in Sources */ = {isa = PBXBuildFile; fileRef = B6D421B91CDC3821001CB5CA /* hashswf.c */; };
-		B6D421C41CDC3821001CB5CA /* log.c in Sources */ = {isa = PBXBuildFile; fileRef = B6D421BB1CDC3821001CB5CA /* log.c */; };
-		B6D421C51CDC3821001CB5CA /* parseurl.c in Sources */ = {isa = PBXBuildFile; fileRef = B6D421BD1CDC3821001CB5CA /* parseurl.c */; };
-		B6D421C61CDC3821001CB5CA /* rtmp.c in Sources */ = {isa = PBXBuildFile; fileRef = B6D421BF1CDC3821001CB5CA /* rtmp.c */; };
+		B6BBAE901CDC41F100F358B8 /* amf.c in Sources */ = {isa = PBXBuildFile; fileRef = B6BBAE801CDC41F100F358B8 /* amf.c */; };
+		B6BBAE911CDC41F100F358B8 /* error.c in Sources */ = {isa = PBXBuildFile; fileRef = B6BBAE851CDC41F100F358B8 /* error.c */; };
+		B6BBAE921CDC41F100F358B8 /* hashswf.c in Sources */ = {isa = PBXBuildFile; fileRef = B6BBAE881CDC41F100F358B8 /* hashswf.c */; };
+		B6BBAE931CDC41F100F358B8 /* log.c in Sources */ = {isa = PBXBuildFile; fileRef = B6BBAE8A1CDC41F100F358B8 /* log.c */; };
+		B6BBAE941CDC41F100F358B8 /* parseurl.c in Sources */ = {isa = PBXBuildFile; fileRef = B6BBAE8C1CDC41F100F358B8 /* parseurl.c */; };
+		B6BBAE951CDC41F100F358B8 /* rtmp.c in Sources */ = {isa = PBXBuildFile; fileRef = B6BBAE8D1CDC41F100F358B8 /* rtmp.c */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
-		B6D421A31CDC37EA001CB5CA /* CopyFiles */ = {
+		B6BBAE2B1CDC3E2700F358B8 /* CopyFiles */ = {
 			isa = PBXCopyFilesBuildPhase;
 			buildActionMask = 2147483647;
 			dstPath = "include/$(PRODUCT_NAME)";
@@ -28,27 +28,27 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
-		B6D421A51CDC37EA001CB5CA /* libpili-librtmp.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libpili-librtmp.a"; sourceTree = BUILT_PRODUCTS_DIR; };
-		B6D421B11CDC3821001CB5CA /* amf.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; name = amf.c; path = ../../Pod/amf.c; sourceTree = "<group>"; };
-		B6D421B21CDC3821001CB5CA /* amf.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = amf.h; path = ../../Pod/amf.h; sourceTree = "<group>"; };
-		B6D421B31CDC3821001CB5CA /* bytes.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = bytes.h; path = ../../Pod/bytes.h; sourceTree = "<group>"; };
-		B6D421B41CDC3821001CB5CA /* dh.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = dh.h; path = ../../Pod/dh.h; sourceTree = "<group>"; };
-		B6D421B51CDC3821001CB5CA /* dhgroups.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = dhgroups.h; path = ../../Pod/dhgroups.h; sourceTree = "<group>"; };
-		B6D421B61CDC3821001CB5CA /* error.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; name = error.c; path = ../../Pod/error.c; sourceTree = "<group>"; };
-		B6D421B71CDC3821001CB5CA /* error.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = error.h; path = ../../Pod/error.h; sourceTree = "<group>"; };
-		B6D421B81CDC3821001CB5CA /* handshake.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = handshake.h; path = ../../Pod/handshake.h; sourceTree = "<group>"; };
-		B6D421B91CDC3821001CB5CA /* hashswf.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; name = hashswf.c; path = ../../Pod/hashswf.c; sourceTree = "<group>"; };
-		B6D421BA1CDC3821001CB5CA /* http.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = http.h; path = ../../Pod/http.h; sourceTree = "<group>"; };
-		B6D421BB1CDC3821001CB5CA /* log.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; name = log.c; path = ../../Pod/log.c; sourceTree = "<group>"; };
-		B6D421BC1CDC3821001CB5CA /* log.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = log.h; path = ../../Pod/log.h; sourceTree = "<group>"; };
-		B6D421BD1CDC3821001CB5CA /* parseurl.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; name = parseurl.c; path = ../../Pod/parseurl.c; sourceTree = "<group>"; };
-		B6D421BE1CDC3821001CB5CA /* rtmp_sys.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = rtmp_sys.h; path = ../../Pod/rtmp_sys.h; sourceTree = "<group>"; };
-		B6D421BF1CDC3821001CB5CA /* rtmp.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; name = rtmp.c; path = ../../Pod/rtmp.c; sourceTree = "<group>"; };
-		B6D421C01CDC3821001CB5CA /* rtmp.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = rtmp.h; path = ../../Pod/rtmp.h; sourceTree = "<group>"; };
+		B6BBAE2D1CDC3E2700F358B8 /* libpili-librtmp.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libpili-librtmp.a"; sourceTree = BUILT_PRODUCTS_DIR; };
+		B6BBAE801CDC41F100F358B8 /* amf.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = amf.c; sourceTree = "<group>"; };
+		B6BBAE811CDC41F100F358B8 /* amf.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = amf.h; sourceTree = "<group>"; };
+		B6BBAE821CDC41F100F358B8 /* bytes.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = bytes.h; sourceTree = "<group>"; };
+		B6BBAE831CDC41F100F358B8 /* dh.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = dh.h; sourceTree = "<group>"; };
+		B6BBAE841CDC41F100F358B8 /* dhgroups.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = dhgroups.h; sourceTree = "<group>"; };
+		B6BBAE851CDC41F100F358B8 /* error.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = error.c; sourceTree = "<group>"; };
+		B6BBAE861CDC41F100F358B8 /* error.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = error.h; sourceTree = "<group>"; };
+		B6BBAE871CDC41F100F358B8 /* handshake.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = handshake.h; sourceTree = "<group>"; };
+		B6BBAE881CDC41F100F358B8 /* hashswf.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = hashswf.c; sourceTree = "<group>"; };
+		B6BBAE891CDC41F100F358B8 /* http.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = http.h; sourceTree = "<group>"; };
+		B6BBAE8A1CDC41F100F358B8 /* log.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = log.c; sourceTree = "<group>"; };
+		B6BBAE8B1CDC41F100F358B8 /* log.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = log.h; sourceTree = "<group>"; };
+		B6BBAE8C1CDC41F100F358B8 /* parseurl.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = parseurl.c; sourceTree = "<group>"; };
+		B6BBAE8D1CDC41F100F358B8 /* rtmp.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = rtmp.c; sourceTree = "<group>"; };
+		B6BBAE8E1CDC41F100F358B8 /* rtmp.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = rtmp.h; sourceTree = "<group>"; };
+		B6BBAE8F1CDC41F100F358B8 /* rtmp_sys.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = rtmp_sys.h; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
-		B6D421A21CDC37EA001CB5CA /* Frameworks */ = {
+		B6BBAE2A1CDC3E2700F358B8 /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -58,55 +58,56 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
-		B6D4219C1CDC37EA001CB5CA = {
+		B6BBAE241CDC3E2700F358B8 = {
 			isa = PBXGroup;
 			children = (
-				B6D421A71CDC37EA001CB5CA /* pili-librtmp */,
-				B6D421A61CDC37EA001CB5CA /* Products */,
+				B6BBAE7F1CDC41F100F358B8 /* pili-librtmp */,
+				B6BBAE2E1CDC3E2700F358B8 /* Products */,
 			);
 			sourceTree = "<group>";
 		};
-		B6D421A61CDC37EA001CB5CA /* Products */ = {
+		B6BBAE2E1CDC3E2700F358B8 /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				B6D421A51CDC37EA001CB5CA /* libpili-librtmp.a */,
+				B6BBAE2D1CDC3E2700F358B8 /* libpili-librtmp.a */,
 			);
 			name = Products;
 			sourceTree = "<group>";
 		};
-		B6D421A71CDC37EA001CB5CA /* pili-librtmp */ = {
+		B6BBAE7F1CDC41F100F358B8 /* pili-librtmp */ = {
 			isa = PBXGroup;
 			children = (
-				B6D421B11CDC3821001CB5CA /* amf.c */,
-				B6D421B21CDC3821001CB5CA /* amf.h */,
-				B6D421B31CDC3821001CB5CA /* bytes.h */,
-				B6D421B41CDC3821001CB5CA /* dh.h */,
-				B6D421B51CDC3821001CB5CA /* dhgroups.h */,
-				B6D421B61CDC3821001CB5CA /* error.c */,
-				B6D421B71CDC3821001CB5CA /* error.h */,
-				B6D421B81CDC3821001CB5CA /* handshake.h */,
-				B6D421B91CDC3821001CB5CA /* hashswf.c */,
-				B6D421BA1CDC3821001CB5CA /* http.h */,
-				B6D421BB1CDC3821001CB5CA /* log.c */,
-				B6D421BC1CDC3821001CB5CA /* log.h */,
-				B6D421BD1CDC3821001CB5CA /* parseurl.c */,
-				B6D421BE1CDC3821001CB5CA /* rtmp_sys.h */,
-				B6D421BF1CDC3821001CB5CA /* rtmp.c */,
-				B6D421C01CDC3821001CB5CA /* rtmp.h */,
+				B6BBAE801CDC41F100F358B8 /* amf.c */,
+				B6BBAE811CDC41F100F358B8 /* amf.h */,
+				B6BBAE821CDC41F100F358B8 /* bytes.h */,
+				B6BBAE831CDC41F100F358B8 /* dh.h */,
+				B6BBAE841CDC41F100F358B8 /* dhgroups.h */,
+				B6BBAE851CDC41F100F358B8 /* error.c */,
+				B6BBAE861CDC41F100F358B8 /* error.h */,
+				B6BBAE871CDC41F100F358B8 /* handshake.h */,
+				B6BBAE881CDC41F100F358B8 /* hashswf.c */,
+				B6BBAE891CDC41F100F358B8 /* http.h */,
+				B6BBAE8A1CDC41F100F358B8 /* log.c */,
+				B6BBAE8B1CDC41F100F358B8 /* log.h */,
+				B6BBAE8C1CDC41F100F358B8 /* parseurl.c */,
+				B6BBAE8D1CDC41F100F358B8 /* rtmp.c */,
+				B6BBAE8E1CDC41F100F358B8 /* rtmp.h */,
+				B6BBAE8F1CDC41F100F358B8 /* rtmp_sys.h */,
 			);
-			path = "pili-librtmp";
+			name = "pili-librtmp";
+			path = "../Pod/Classes/pili-librtmp";
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
-		B6D421A41CDC37EA001CB5CA /* pili-librtmp */ = {
+		B6BBAE2C1CDC3E2700F358B8 /* pili-librtmp */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = B6D421AE1CDC37EA001CB5CA /* Build configuration list for PBXNativeTarget "pili-librtmp" */;
+			buildConfigurationList = B6BBAE361CDC3E2700F358B8 /* Build configuration list for PBXNativeTarget "pili-librtmp" */;
 			buildPhases = (
-				B6D421A11CDC37EA001CB5CA /* Sources */,
-				B6D421A21CDC37EA001CB5CA /* Frameworks */,
-				B6D421A31CDC37EA001CB5CA /* CopyFiles */,
+				B6BBAE291CDC3E2700F358B8 /* Sources */,
+				B6BBAE2A1CDC3E2700F358B8 /* Frameworks */,
+				B6BBAE2B1CDC3E2700F358B8 /* CopyFiles */,
 			);
 			buildRules = (
 			);
@@ -114,58 +115,58 @@
 			);
 			name = "pili-librtmp";
 			productName = "pili-librtmp";
-			productReference = B6D421A51CDC37EA001CB5CA /* libpili-librtmp.a */;
+			productReference = B6BBAE2D1CDC3E2700F358B8 /* libpili-librtmp.a */;
 			productType = "com.apple.product-type.library.static";
 		};
 /* End PBXNativeTarget section */
 
 /* Begin PBXProject section */
-		B6D4219D1CDC37EA001CB5CA /* Project object */ = {
+		B6BBAE251CDC3E2700F358B8 /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
 				LastUpgradeCheck = 0720;
 				ORGANIZATIONNAME = "Pili Engineering, Qiniu Inc.";
 				TargetAttributes = {
-					B6D421A41CDC37EA001CB5CA = {
+					B6BBAE2C1CDC3E2700F358B8 = {
 						CreatedOnToolsVersion = 7.2.1;
 					};
 				};
 			};
-			buildConfigurationList = B6D421A01CDC37EA001CB5CA /* Build configuration list for PBXProject "pili-librtmp" */;
+			buildConfigurationList = B6BBAE281CDC3E2700F358B8 /* Build configuration list for PBXProject "pili-librtmp" */;
 			compatibilityVersion = "Xcode 3.2";
 			developmentRegion = English;
 			hasScannedForEncodings = 0;
 			knownRegions = (
 				en,
 			);
-			mainGroup = B6D4219C1CDC37EA001CB5CA;
-			productRefGroup = B6D421A61CDC37EA001CB5CA /* Products */;
+			mainGroup = B6BBAE241CDC3E2700F358B8;
+			productRefGroup = B6BBAE2E1CDC3E2700F358B8 /* Products */;
 			projectDirPath = "";
 			projectRoot = "";
 			targets = (
-				B6D421A41CDC37EA001CB5CA /* pili-librtmp */,
+				B6BBAE2C1CDC3E2700F358B8 /* pili-librtmp */,
 			);
 		};
 /* End PBXProject section */
 
 /* Begin PBXSourcesBuildPhase section */
-		B6D421A11CDC37EA001CB5CA /* Sources */ = {
+		B6BBAE291CDC3E2700F358B8 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				B6D421C51CDC3821001CB5CA /* parseurl.c in Sources */,
-				B6D421C41CDC3821001CB5CA /* log.c in Sources */,
-				B6D421C61CDC3821001CB5CA /* rtmp.c in Sources */,
-				B6D421C21CDC3821001CB5CA /* error.c in Sources */,
-				B6D421C11CDC3821001CB5CA /* amf.c in Sources */,
-				B6D421C31CDC3821001CB5CA /* hashswf.c in Sources */,
+				B6BBAE941CDC41F100F358B8 /* parseurl.c in Sources */,
+				B6BBAE931CDC41F100F358B8 /* log.c in Sources */,
+				B6BBAE951CDC41F100F358B8 /* rtmp.c in Sources */,
+				B6BBAE911CDC41F100F358B8 /* error.c in Sources */,
+				B6BBAE901CDC41F100F358B8 /* amf.c in Sources */,
+				B6BBAE921CDC41F100F358B8 /* hashswf.c in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXSourcesBuildPhase section */
 
 /* Begin XCBuildConfiguration section */
-		B6D421AC1CDC37EA001CB5CA /* Debug */ = {
+		B6BBAE341CDC3E2700F358B8 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
@@ -208,7 +209,7 @@
 			};
 			name = Debug;
 		};
-		B6D421AD1CDC37EA001CB5CA /* Release */ = {
+		B6BBAE351CDC3E2700F358B8 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
@@ -245,7 +246,7 @@
 			};
 			name = Release;
 		};
-		B6D421AF1CDC37EA001CB5CA /* Debug */ = {
+		B6BBAE371CDC3E2700F358B8 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				OTHER_LDFLAGS = "-ObjC";
@@ -254,7 +255,7 @@
 			};
 			name = Debug;
 		};
-		B6D421B01CDC37EA001CB5CA /* Release */ = {
+		B6BBAE381CDC3E2700F358B8 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				OTHER_LDFLAGS = "-ObjC";
@@ -266,24 +267,25 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
-		B6D421A01CDC37EA001CB5CA /* Build configuration list for PBXProject "pili-librtmp" */ = {
+		B6BBAE281CDC3E2700F358B8 /* Build configuration list for PBXProject "pili-librtmp" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
-				B6D421AC1CDC37EA001CB5CA /* Debug */,
-				B6D421AD1CDC37EA001CB5CA /* Release */,
+				B6BBAE341CDC3E2700F358B8 /* Debug */,
+				B6BBAE351CDC3E2700F358B8 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		B6D421AE1CDC37EA001CB5CA /* Build configuration list for PBXNativeTarget "pili-librtmp" */ = {
+		B6BBAE361CDC3E2700F358B8 /* Build configuration list for PBXNativeTarget "pili-librtmp" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
-				B6D421AF1CDC37EA001CB5CA /* Debug */,
-				B6D421B01CDC37EA001CB5CA /* Release */,
+				B6BBAE371CDC3E2700F358B8 /* Debug */,
+				B6BBAE381CDC3E2700F358B8 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};
-	rootObject = B6D4219D1CDC37EA001CB5CA /* Project object */;
+	rootObject = B6BBAE251CDC3E2700F358B8 /* Project object */;
 }

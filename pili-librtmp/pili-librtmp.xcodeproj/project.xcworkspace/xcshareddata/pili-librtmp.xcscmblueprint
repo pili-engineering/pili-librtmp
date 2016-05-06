@@ -7,7 +7,7 @@
     "1572C2605581CAFA6E620B982A8CF730602185E5" : 0,
     "E95434706541E4F53523D4F8C1057CE8237AC944" : 0
   },
-  "DVTSourceControlWorkspaceBlueprintIdentifierKey" : "522D9144-C502-47C6-AFFE-13C3AB02E3D1",
+  "DVTSourceControlWorkspaceBlueprintIdentifierKey" : "50A19D2C-8EF8-4062-88EE-08450BDD9806",
   "DVTSourceControlWorkspaceBlueprintWorkingCopyPathsKey" : {
     "1572C2605581CAFA6E620B982A8CF730602185E5" : "..\/..",
     "E95434706541E4F53523D4F8C1057CE8237AC944" : "pili-librtmp\/"
@@ -22,7 +22,7 @@
       "DVTSourceControlWorkspaceBlueprintRemoteRepositoryIdentifierKey" : "1572C2605581CAFA6E620B982A8CF730602185E5"
     },
     {
-      "DVTSourceControlWorkspaceBlueprintRemoteRepositoryURLKey" : "github.com:pili-engineering\/pili-librtmp.git",
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositoryURLKey" : "github.com:hzwangsiyu\/pili-librtmp.git",
       "DVTSourceControlWorkspaceBlueprintRemoteRepositorySystemKey" : "com.apple.dt.Xcode.sourcecontrol.Git",
       "DVTSourceControlWorkspaceBlueprintRemoteRepositoryIdentifierKey" : "E95434706541E4F53523D4F8C1057CE8237AC944"
     }
