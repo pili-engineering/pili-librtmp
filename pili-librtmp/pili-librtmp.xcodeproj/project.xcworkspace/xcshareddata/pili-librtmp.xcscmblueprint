@@ -1,0 +1,30 @@
+{
+  "DVTSourceControlWorkspaceBlueprintPrimaryRemoteRepositoryKey" : "E95434706541E4F53523D4F8C1057CE8237AC944",
+  "DVTSourceControlWorkspaceBlueprintWorkingCopyRepositoryLocationsKey" : {
+
+  },
+  "DVTSourceControlWorkspaceBlueprintWorkingCopyStatesKey" : {
+    "1572C2605581CAFA6E620B982A8CF730602185E5" : 0,
+    "E95434706541E4F53523D4F8C1057CE8237AC944" : 0
+  },
+  "DVTSourceControlWorkspaceBlueprintIdentifierKey" : "522D9144-C502-47C6-AFFE-13C3AB02E3D1",
+  "DVTSourceControlWorkspaceBlueprintWorkingCopyPathsKey" : {
+    "1572C2605581CAFA6E620B982A8CF730602185E5" : "..\/..",
+    "E95434706541E4F53523D4F8C1057CE8237AC944" : "pili-librtmp\/"
+  },
+  "DVTSourceControlWorkspaceBlueprintNameKey" : "pili-librtmp",
+  "DVTSourceControlWorkspaceBlueprintVersion" : 204,
+  "DVTSourceControlWorkspaceBlueprintRelativePathToProjectKey" : "pili-librtmp\/pili-librtmp.xcodeproj",
+  "DVTSourceControlWorkspaceBlueprintRemoteRepositoriesKey" : [
+    {
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositoryURLKey" : "https:\/\/www.github.com\/hzwangsiyu\/pili-player-ios-kit.git",
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositorySystemKey" : "com.apple.dt.Xcode.sourcecontrol.Git",
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositoryIdentifierKey" : "1572C2605581CAFA6E620B982A8CF730602185E5"
+    },
+    {
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositoryURLKey" : "github.com:pili-engineering\/pili-librtmp.git",
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositorySystemKey" : "com.apple.dt.Xcode.sourcecontrol.Git",
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositoryIdentifierKey" : "E95434706541E4F53523D4F8C1057CE8237AC944"
+    }
+  ]
+}
