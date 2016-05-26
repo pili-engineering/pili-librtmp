@@ -30,3 +30,13 @@
 
 # Debug files
 *.dSYM/
+
+# Android Studio
+.idea
+.gradle
+build/
+
+# Xcode
+xcuserdata
+xcshareddata
+*.xccheckout
