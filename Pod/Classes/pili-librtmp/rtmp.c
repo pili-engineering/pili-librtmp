@@ -629,8 +629,8 @@ int PILI_RTMP_SetupURL(PILI_RTMP *r, const char *url, RTMPError *error) {
         *ptr = '\0';
 
     len = (int)strlen(url);
-    ret = PILI_RTMP_ParseURL(url, &r->Link.protocol, &r->Link.hostname,
-                             &port, &r->Link.playpath0, &r->Link.app);
+    ret = PILI_RTMP_ParseURL2(url, &r->Link.protocol, &r->Link.hostname,
+                              &port, &r->Link.playpath0, &r->Link.app, &r->Link.domain);
     if (!ret)
         return ret;
     r->Link.port = port;
