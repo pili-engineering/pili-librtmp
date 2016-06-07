@@ -683,17 +683,23 @@ int PILI_RTMP_SetupURL(PILI_RTMP *r, const char *url, RTMPError *error) {
     if (!r->Link.tcUrl.av_len) {
         r->Link.tcUrl.av_val = url;
         if (r->Link.app.av_len) {
-            if (r->Link.app.av_val < url + len) {
+            AVal *domain = &r->Link.domain;
+            if (domain->av_len == 0 && r->Link.app.av_val < url + len) {
                 /* if app is part of original url, just use it */
                 r->Link.tcUrl.av_len = r->Link.app.av_len + (r->Link.app.av_val - url);
             } else {
-                len = r->Link.hostname.av_len + r->Link.app.av_len +
-                      sizeof("rtmpte://:65535/");
+                if (domain->av_len == 0) {
+                    domain = &r->Link.hostname;
+                }
+                if (r->Link.port = 0) {
+                    r->Link.port = 1935;
+                }
+                len = domain->av_len + r->Link.app.av_len + sizeof("rtmpte://:65535/");
                 r->Link.tcUrl.av_val = malloc(len);
                 r->Link.tcUrl.av_len = snprintf(r->Link.tcUrl.av_val, len,
                                                 "%s://%.*s:%d/%.*s",
                                                 PILI_RTMPProtocolStringsLower[r->Link.protocol],
-                                                r->Link.hostname.av_len, r->Link.hostname.av_val,
+                                                domain->av_len, domain->av_val,
                                                 r->Link.port,
                                                 r->Link.app.av_len, r->Link.app.av_val);
                 r->Link.lFlags |= RTMP_LF_FTCU;
@@ -720,55 +726,7 @@ int PILI_RTMP_SetupURL(PILI_RTMP *r, const char *url, RTMPError *error) {
     return TRUE;
 }
 
-//static int
-//add_addr_info(PILI_RTMP *r, struct sockaddr_in *service, AVal *host, int port, RTMPError *error)
-//{
-//  char *hostname;
-//  int ret = TRUE;
-//  if (host->av_val[host->av_len])
-//    {
-//      hostname = malloc(host->av_len+1);
-//      memcpy(hostname, host->av_val, host->av_len);
-//      hostname[host->av_len] = '\0';
-//    }
-//  else
-//    {
-//      hostname = host->av_val;
-//    }
-//
-//  service->sin_addr.s_addr = inet_addr(hostname);
-//  if (service->sin_addr.s_addr == INADDR_NONE)
-//    {
-//      struct hostent *host = gethostbyname(hostname);
-//      if (host == NULL || host->h_addr == NULL)
-//	{
-//        if (error) {
-//            char msg[100];
-//            memset(msg, 0, 100);
-//            strcat(msg, "Problem accessing the DNS. addr: ");
-//            strcat(msg, hostname);
-//
-//            RTMPError_Alloc(error, strlen(msg));
-//            error->code = RTMPErrorAccessDNSFailed;
-//            strcpy(error->message, msg);
-//        }
-//
-//        RTMP_Log(RTMP_LOGERROR, "Problem accessing the DNS. (addr: %s)", hostname);
-//        ret = FALSE;
-//        goto finish;
-//	}
-//      service->sin_addr = *(struct in_addr *)host->h_addr;
-//    }
-//
-//  service->sin_port = htons(port);
-//finish:
-//  if (hostname != host->av_val)
-//    free(hostname);
-//  return ret;
-//}
-
-static int
-    add_addr_info(PILI_RTMP *r, struct addrinfo *hints, struct addrinfo **ai, AVal *host, int port, RTMPError *error) {
+static int add_addr_info(PILI_RTMP *r, struct addrinfo *hints, struct addrinfo **ai, AVal *host, int port, RTMPError *error) {
     char *hostname;
     int ret = TRUE;
     if (host->av_val[host->av_len]) {

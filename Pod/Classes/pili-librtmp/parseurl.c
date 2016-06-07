@@ -30,8 +30,8 @@
 #include "log.h"
 #include "rtmp_sys.h"
 
-int PILI_RTMP_ParseURL(const char *url, int *protocol, AVal *host, unsigned int *port,
-                       AVal *playpath, AVal *app) {
+int PILI_RTMP_ParseURL2(const char *url, int *protocol, AVal *host, unsigned int *port,
+                        AVal *playpath, AVal *app, AVal *domainName) {
     char *p, *end, *col, *ques, *slash;
 
     RTMP_Log(RTMP_LOGDEBUG, "Parsing...");
@@ -128,6 +128,30 @@ parsehost:
         return TRUE;
     }
     p = slash + 1;
+
+    /** parse domain
+          +    * rtmp://host:[port]/app/...?domain=a.com
+          +    *  use domain to replace host
+          +    */
+
+    if (domainName != NULL && ques != NULL) {
+        char *domain = strstr(ques, "domain=");
+        if (domain) {
+            domain += 7; //skip "domain="
+            char *end = strchr(domain, '&');
+            int host_len = 0;
+            if (end) {
+                host_len = end - domain;
+            } else {
+                host_len = strlen(domain);
+            }
+            if (host_len < 256) {
+                domainName->av_val = domain;
+                domainName->av_len = host_len;
+                RTMP_Log(RTMP_LOGDEBUG, "Parsed host  and domain  : %.*s", host_len, host->av_val);
+            }
+        }
+    }
 
     {
         /* parse application
@@ -279,4 +303,9 @@ void PILI_RTMP_ParsePlaypath(AVal *in, AVal *out) {
 
     out->av_val = streamname;
     out->av_len = destptr - streamname;
+}
+
+int PILI_RTMP_ParseURL(const char *url, int *protocol, AVal *host,
+                       unsigned int *port, AVal *playpath, AVal *app) {
+    return PILI_RTMP_ParseURL2(url, protocol, host, port, playpath, app, NULL);
 }
