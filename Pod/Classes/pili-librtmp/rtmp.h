@@ -50,6 +50,7 @@ extern "C" {
 #define RTMP_FEATURE_MFP 0x08 /* not yet supported */
 #define RTMP_FEATURE_WRITE 0x10 /* publish, not play */
 #define RTMP_FEATURE_HTTP2 0x20 /* server-side rtmpt */
+#define RTMP_FEATURE_NONBLOCK 0x40 /* non block socket */
 
 #define RTMP_PROTOCOL_UNDEFINED -1
 #define RTMP_PROTOCOL_RTMP 0
@@ -333,7 +334,7 @@ int PILI_RTMP_Pause(PILI_RTMP *r, int DoPause, RTMPError *error);
 int PILI_RTMP_FindFirstMatchingProperty(AMFObject *obj, const AVal *name,
                                         AMFObjectProperty *p);
 
-int PILI_RTMPSockBuf_Fill(PILI_RTMPSockBuf *sb);
+int PILI_RTMPSockBuf_Fill(PILI_RTMPSockBuf *sb, int timeout);
 int PILI_RTMPSockBuf_Send(PILI_RTMPSockBuf *sb, const char *buf, int len);
 int PILI_RTMPSockBuf_Close(PILI_RTMPSockBuf *sb);
 
