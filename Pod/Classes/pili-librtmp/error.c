@@ -18,3 +18,9 @@ void RTMPError_Free(RTMPError *error) {
         }
     }
 }
+
+void RTMPError_Message(RTMPError *error, int code, const char *message) {
+    RTMPError_Alloc(error, strlen(message));
+    error->code = code;
+    strcpy(error->message, message);
+}
