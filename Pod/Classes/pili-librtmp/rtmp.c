@@ -24,10 +24,10 @@
  */
 
 #include <assert.h>
+#include <fcntl.h>
 #include <stdint.h>
 #include <stdlib.h>
 #include <string.h>
-#include <fcntl.h>
 #include <sys/select.h>
 
 #include "log.h"
@@ -801,7 +801,7 @@ int PILI_RTMP_Connect0(PILI_RTMP *r, struct addrinfo *ai, unsigned short port, R
                                  sockerr, strerror(sockerr));
                         if (sockerr == EINTR && !PILI_RTMP_ctrlC)
                             continue;
-                        
+
                         char msg[100];
                         memset(msg, 0, 100);
                         strcat(msg, "PILI_RTMP connect select error. ");
@@ -816,7 +816,7 @@ int PILI_RTMP_Connect0(PILI_RTMP *r, struct addrinfo *ai, unsigned short port, R
                         PILI_RTMP_Close(r, error);
                         RTMPError_Free(error);
                         return FALSE;
-                    } else if(!FD_ISSET(r->m_sb.sb_socket, &wfds)) {
+                    } else if (!FD_ISSET(r->m_sb.sb_socket, &wfds)) {
                         PILI_RTMP_Close(r, error);
                         RTMPError_Message(error, RTMPErrorFailedToConnectSocket, "PILI_RTMP connect error");
                         RTMPError_Free(error);
@@ -829,21 +829,21 @@ int PILI_RTMP_Connect0(PILI_RTMP *r, struct addrinfo *ai, unsigned short port, R
             } else {
 #endif
 
-            if (error) {
-                char msg[100];
-                memset(msg, 0, 100);
-                strcat(msg, "Failed to connect socket. ");
-                strcat(msg, strerror(err));
-                RTMPError_Alloc(error, strlen(msg));
-                error->code = RTMPErrorFailedToConnectSocket;
-                strcpy(error->message, msg);
-            }
+                if (error) {
+                    char msg[100];
+                    memset(msg, 0, 100);
+                    strcat(msg, "Failed to connect socket. ");
+                    strcat(msg, strerror(err));
+                    RTMPError_Alloc(error, strlen(msg));
+                    error->code = RTMPErrorFailedToConnectSocket;
+                    strcpy(error->message, msg);
+                }
 
-            RTMP_Log(RTMP_LOGERROR, "%s, failed to connect socket. %d (%s)",
-                     __FUNCTION__, err, strerror(err));
+                RTMP_Log(RTMP_LOGERROR, "%s, failed to connect socket. %d (%s)",
+                         __FUNCTION__, err, strerror(err));
 
-            PILI_RTMP_Close(r, NULL);
-            return FALSE;
+                PILI_RTMP_Close(r, NULL);
+                return FALSE;
 #ifdef RTMP_FEATURE_NONBLOCK
             }
 #endif
@@ -883,7 +883,7 @@ int PILI_RTMP_Connect0(PILI_RTMP *r, struct addrinfo *ai, unsigned short port, R
 
         return FALSE;
     }
-    
+
 #if RTMP_FEATURE_NONBLOCK
 
 #else
@@ -1482,13 +1482,13 @@ static int
         RC4_encrypt2(r->Link.rc4keyOut, n, buffer, ptr);
     }
 #endif
-        
+
 #ifdef RTMP_FEATURE_NONBLOCK
-        SET_RCVTIMEO(tv, r->Link.timeout);
-        fd_set wfds;
+    SET_RCVTIMEO(tv, r->Link.timeout);
+    fd_set wfds;
 #endif
     while (n > 0) {
-        
+
 #ifdef RTMP_FEATURE_NONBLOCK
         FD_ZERO(&wfds);
         FD_SET(r->m_sb.sb_socket, &wfds);
@@ -1499,7 +1499,7 @@ static int
                      sockerr, strerror(sockerr));
             if (sockerr == EINTR && !PILI_RTMP_ctrlC)
                 continue;
-            
+
             char msg[100];
             memset(msg, 0, 100);
             strcat(msg, "PILI_RTMP send select error. ");
@@ -1516,7 +1516,7 @@ static int
             RTMPError_Free(error);
             n = 1;
             break;
-        } else if(!FD_ISSET(r->m_sb.sb_socket, &wfds)) {
+        } else if (!FD_ISSET(r->m_sb.sb_socket, &wfds)) {
             PILI_RTMP_Close(r, error);
             RTMPError_Message(error, RTMPErrorSendFailed, "PILI_RTMP send error socket can not write");
             RTMPError_Free(error);
@@ -1539,7 +1539,7 @@ static int
 
             if (sockerr == EINTR && !PILI_RTMP_ctrlC)
                 continue;
-            
+
 #ifdef RTMP_FEATURE_NONBLOCK
             if (sockerr == EWOULDBLOCK || sockerr == EAGAIN) {
                 continue;
@@ -3517,7 +3517,7 @@ int PILI_RTMPSockBuf_Fill(PILI_RTMPSockBuf *sb, int timeout) {
                      __FUNCTION__, sockerr, strerror(sockerr));
             if (sockerr == EINTR && !PILI_RTMP_ctrlC)
                 continue;
-            
+
             sb->sb_timedout = TRUE;
             nBytes = 0;
             break;
@@ -3526,13 +3526,13 @@ int PILI_RTMPSockBuf_Fill(PILI_RTMPSockBuf *sb, int timeout) {
             sb->sb_timedout = TRUE;
             nBytes = 0;
             break;
-        } else if(!FD_ISSET(sb->sb_socket, &rfds)) {
+        } else if (!FD_ISSET(sb->sb_socket, &rfds)) {
             sb->sb_timedout = TRUE;
             nBytes = 0;
             break;
         }
 #endif
-        
+
         nBytes = sizeof(sb->sb_buf) - sb->sb_size - (sb->sb_start - sb->sb_buf);
 #if defined(CRYPTO) && !defined(NO_SSL)
         if (sb->sb_ssl) {
@@ -4275,4 +4275,8 @@ int PILI_RTMP_Write(PILI_RTMP *r, const char *buf, int size, RTMPError *error) {
         }
     }
     return size + s2;
+}
+
+int PILI_RTMP_Version() {
+    return MAJOR * 100 * 100 + MINOR * 100 + PATCH;
 }

@@ -346,6 +346,12 @@ void PILI_RTMP_DropRequest(PILI_RTMP *r, int i, int freeit);
 int PILI_RTMP_Read(PILI_RTMP *r, char *buf, int size);
 int PILI_RTMP_Write(PILI_RTMP *r, const char *buf, int size, RTMPError *error);
 
+#define MAJOR 1
+#define MINOR 0
+#define PATCH 4
+
+int PILI_RTMP_Version();
+
 /* hashswf.c */
 int PILI_RTMP_HashSWF(const char *url, unsigned int *size, unsigned char *hash,
                       int age);
