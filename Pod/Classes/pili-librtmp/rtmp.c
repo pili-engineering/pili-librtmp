@@ -4278,8 +4278,5 @@ int PILI_RTMP_Write(PILI_RTMP *r, const char *buf, int size, RTMPError *error) {
 }
 
 int PILI_RTMP_Version() {
-#define MAJOR 1
-#define MINOR 0
-#define PATCH 4
     return MAJOR * 100 * 100 + MINOR * 100 + PATCH;
 }
