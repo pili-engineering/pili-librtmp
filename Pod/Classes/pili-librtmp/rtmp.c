@@ -3477,6 +3477,7 @@ void PILI_RTMP_Close(PILI_RTMP *r, RTMPError *error) {
     if (r->Link.lFlags & RTMP_LF_FTCU) {
         free(r->Link.tcUrl.av_val);
         r->Link.tcUrl.av_val = NULL;
+        r->Link.tcUrl.av_len = 0;
         r->Link.lFlags ^= RTMP_LF_FTCU;
     }
 
