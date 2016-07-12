@@ -4280,3 +4280,56 @@ int PILI_RTMP_Write(PILI_RTMP *r, const char *buf, int size, RTMPError *error) {
 int PILI_RTMP_Version() {
     return MAJOR * 100 * 100 + MINOR * 100 + PATCH;
 }
+
+static pili_dns_callback dns_callback = NULL;
+int pili_getaddrinfo(const char *hostname, const char *servname, const struct addrinfo *hints, struct addrinfo **res){
+    if (dns_callback == NULL) {
+        return getaddrinfo(hostname, servname, hints, res);
+    }
+    
+    pili_ips_ret* ret = dns_callback(hostname);
+    if (ret == NULL) {
+        return EAI_NODATA;
+    }
+    if (ret->ips == NULL) {
+        free(ret);
+        return EAI_NODATA;
+    }
+    int i;
+    for (i = 0; ret->ips[i] != NULL; i++) {
+        int ad = 
+    }
+    
+    return 0;
+}
+        
+void pili_freeaddrinfo(struct addrinfo *ai){
+    if (ai == NULL) {
+        return;
+    }
+    struct addrinfo *next;
+    do {
+        next = ai->ai_next;
+        if (ai->ai_canonname)
+            free(ai->ai_canonname);
+        /* no need to free(ai->ai_addr) */
+        free(ai);
+        ai = next;
+    } while (ai);
+}
+        
+void pili_set_dns_callback(pili_dns_callback cb){
+    dns_callback = cb;
+}
+        
+void pili_free_ips_ret(pili_ips_ret *ip_list){
+    if (ip_list == NULL) {
+        return;
+    }
+    char** p = ip_list->ips;
+    while (*p != NULL) {
+        free(*p);
+        p++;
+    }
+    free(ip_list);
+}
