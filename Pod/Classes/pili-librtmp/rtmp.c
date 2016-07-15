@@ -1537,7 +1537,19 @@ static int
             RTMP_Log(RTMP_LOGERROR, "%s, PILI_RTMP send error %d, %s, (%d bytes)", __FUNCTION__,
                      sockerr, strerror(sockerr), n);
 
-            if (sockerr == EINTR && !PILI_RTMP_ctrlC)
+            /*
+              Specify the receiving or sending timeouts until reporting an error.
+              The argument is a struct timeval.
+              If an input or output function blocks for this period of time,
+              and data has been sent or received,
+              the return value of that function will be the amount of data transferred;
+              if no data has been transferred and the timeout has been reached then -1 is returned
+              with errno set to EAGAIN or EWOULDBLOCK, or EINPROGRESS (for connect(2)) just as if the socket was specified to be nonblocking.
+               If the timeout is set to zero (the default) then the operation will never timeout.
+               Timeouts only have effect for system calls that perform socket I/O (e.g., read(2), recvmsg(2), send(2), sendmsg(2));
+               timeouts have no effect for select(2), poll(2), epoll_wait(2), and so on.
+            */
+            if ((sockerr == EINTR && !PILI_RTMP_ctrlC ) || sockerr == EAGAIN)
                 continue;
 
 #ifdef RTMP_FEATURE_NONBLOCK
