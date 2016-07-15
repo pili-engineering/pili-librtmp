@@ -779,7 +779,6 @@ int PILI_RTMP_Connect0(PILI_RTMP *r, struct addrinfo *ai, unsigned short port, R
             int flags = fcntl(r->m_sb.sb_socket, F_GETFL, 0);
             if (fcntl(r->m_sb.sb_socket, F_SETFL, flags | O_NONBLOCK) < 0) {
                 RTMP_Log(RTMP_LOGERROR, "%s, set socket non block failed", __FUNCTION__);
-                PILI_RTMP_Close(r, NULL);
                 return FALSE;
             }
         }
@@ -807,7 +806,6 @@ int PILI_RTMP_Connect0(PILI_RTMP *r, struct addrinfo *ai, unsigned short port, R
                         strcat(msg, "PILI_RTMP connect select error. ");
                         strcat(msg, strerror(sockerr));
                         RTMPError_Message(error, RTMPErrorFailedToConnectSocket, msg);
-                        PILI_RTMP_Close(r, error);
                         RTMPError_Free(error);
                         return FALSE;
                     } else if (ret == 0) {
@@ -817,7 +815,7 @@ int PILI_RTMP_Connect0(PILI_RTMP *r, struct addrinfo *ai, unsigned short port, R
                         RTMPError_Free(error);
                         return FALSE;
                     } else if (!FD_ISSET(r->m_sb.sb_socket, &wfds)) {
-                        PILI_RTMP_Close(r, error);
+
                         RTMPError_Message(error, RTMPErrorFailedToConnectSocket, "PILI_RTMP connect error");
                         RTMPError_Free(error);
                         return FALSE;
@@ -842,7 +840,6 @@ int PILI_RTMP_Connect0(PILI_RTMP *r, struct addrinfo *ai, unsigned short port, R
                 RTMP_Log(RTMP_LOGERROR, "%s, failed to connect socket. %d (%s)",
                          __FUNCTION__, err, strerror(err));
 
-                PILI_RTMP_Close(r, NULL);
                 return FALSE;
 #ifdef RTMP_FEATURE_NONBLOCK
             }
@@ -862,7 +859,6 @@ int PILI_RTMP_Connect0(PILI_RTMP *r, struct addrinfo *ai, unsigned short port, R
                 }
 
                 RTMP_Log(RTMP_LOGERROR, "%s, SOCKS negotiation failed.", __FUNCTION__);
-                PILI_RTMP_Close(r, NULL);
                 return FALSE;
             }
         }
@@ -1025,12 +1021,22 @@ int PILI_RTMP_Connect(PILI_RTMP *r, PILI_RTMPPacket *cp, RTMPError *error) {
     }
     r->ip = 0; //useless for ipv6
     cur_ai = ai;
-
-    int t1 = PILI_RTMP_GetTime();
-    if (!PILI_RTMP_Connect0(r, cur_ai, port, error)) {
+    int t1 = 0;
+    int ret1 = FALSE;
+    while (cur_ai != NULL) {
+        t1 = PILI_RTMP_GetTime();
+        RTMPError_Free(error);
+        ret1 = PILI_RTMP_Connect0(r, cur_ai, port, error);
+        if (ret1 == TRUE ) {
+            break;
+        }
+        cur_ai = cur_ai->ai_next;
+    }
+    if (ret1 != TRUE) {
         freeaddrinfo(ai);
         return FALSE;
     }
+    
     conn_time.connect_time = PILI_RTMP_GetTime() - t1;
     r->m_bSendCounter = TRUE;
 
@@ -4281,9 +4287,64 @@ int PILI_RTMP_Version() {
     return MAJOR * 100 * 100 + MINOR * 100 + PATCH;
 }
 
+//fast judge domain or ip, not verify ip right.
+static int isIp(const char* domain){
+    int l = strlen(domain);
+    if (l >15 || l < 7) {
+        return 0;
+    }
+    
+    for (const char* p = domain; p < domain+l; p++) {
+        if ((*p < '0' || *p > '9') && *p != '.') {
+            return 0;
+        }
+    }
+    return 1;
+}
+
+static struct addrinfo* addrinfo_clone(struct addrinfo* addr){
+    struct addrinfo *ai;
+    
+    ai = calloc(sizeof(struct addrinfo) + addr->ai_addrlen, 1);
+    if (ai) {
+        memcpy(ai, addr, sizeof(struct addrinfo));
+        ai->ai_addr = (void *)(ai+1);
+        memcpy(ai->ai_addr, addr->ai_addr, addr->ai_addrlen);
+        if (addr->ai_canonname) {
+            ai->ai_canonname = strdup(addr->ai_canonname);
+        }
+        ai->ai_next = NULL;
+    }
+    return ai;
+}
+        
+static void append_addrinfo(struct addrinfo** head, struct addrinfo* addr){
+    if (*head == NULL) {
+        *head = addr;
+        return;
+    }
+    struct addrinfo* ai = *head;
+    while (ai->ai_next != NULL) {
+        ai = ai->ai_next;
+    }
+    ai->ai_next = addr;
+}
+
+void pili_free_ips_ret(pili_ips_ret *ip_list){
+    if (ip_list == NULL) {
+        return;
+    }
+    char** p = ip_list->ips;
+    while (*p != NULL) {
+        free(*p);
+        p++;
+    }
+    free(ip_list);
+}
+        
 static pili_dns_callback dns_callback = NULL;
 int pili_getaddrinfo(const char *hostname, const char *servname, const struct addrinfo *hints, struct addrinfo **res){
-    if (dns_callback == NULL) {
+    if (dns_callback == NULL || hostname == NULL || isIp(hostname)) {
         return getaddrinfo(hostname, servname, hints, res);
     }
     
@@ -4292,14 +4353,27 @@ int pili_getaddrinfo(const char *hostname, const char *servname, const struct ad
         return EAI_NODATA;
     }
     if (ret->ips == NULL) {
-        free(ret);
+        pili_free_ips_ret(ret);
         return EAI_NODATA;
     }
     int i;
+    struct addrinfo* ai;
+    struct addrinfo* store = NULL;
+    int r;
     for (i = 0; ret->ips[i] != NULL; i++) {
-        int ad = 
+        r = getaddrinfo(ret->ips[i], servname, hints, &ai);
+        if (r != 0) {
+            break;
+        }
+        ai = addrinfo_clone(ai);
+        append_addrinfo(&store, ai);
     }
-    
+    pili_free_ips_ret(ret);
+    if (r != 0) {
+        pili_freeaddrinfo(store);
+        return r;
+    }
+    *res = store;
     return 0;
 }
         
@@ -4320,16 +4394,4 @@ void pili_freeaddrinfo(struct addrinfo *ai){
         
 void pili_set_dns_callback(pili_dns_callback cb){
     dns_callback = cb;
-}
-        
-void pili_free_ips_ret(pili_ips_ret *ip_list){
-    if (ip_list == NULL) {
-        return;
-    }
-    char** p = ip_list->ips;
-    while (*p != NULL) {
-        free(*p);
-        p++;
-    }
-    free(ip_list);
 }

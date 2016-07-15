@@ -359,7 +359,7 @@ typedef struct pili_ips_ret{
     char* ips[1];
 }pili_ips_ret;
 
-typedef pili_ips_ret* (pili_dns_callback)(const char* host);
+typedef pili_ips_ret* (*pili_dns_callback)(const char* host);
     
 void pili_free_ips_ret(pili_ips_ret *ip_list);
 
