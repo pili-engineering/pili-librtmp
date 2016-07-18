@@ -1479,9 +1479,6 @@ static int
 #ifdef CRYPTO
     char *encrypted = 0;
     char buf[RTMP_BUFFER_CACHE_SIZE];
-  
-    // @remark debug info by http://github.com/ossrs/srs
-    _srs_sbytes += n;
 
     if (r->Link.rc4keyOut) {
         if (n > sizeof(buf))
@@ -1492,6 +1489,9 @@ static int
         RC4_encrypt2(r->Link.rc4keyOut, n, buffer, ptr);
     }
 #endif
+  
+    // @remark debug info by http://github.com/ossrs/srs
+    _srs_sbytes += n;
 
 #ifdef RTMP_FEATURE_NONBLOCK
     SET_RCVTIMEO(tv, r->Link.timeout);
