@@ -363,7 +363,7 @@ int PILI_RTMP_HashSWF(const char *url, unsigned int *size, unsigned char *hash,
  */
 /*
  * The current state of client.
- *  0,idle 1,connected 2,working 3,closed
+ *  0,init 1,idle 2,connected 3,working 4,closed
  */
 extern int _srs_state;
 

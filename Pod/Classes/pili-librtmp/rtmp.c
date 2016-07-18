@@ -227,7 +227,7 @@ void PILI_RTMP_Free(PILI_RTMP *r) {
 }
 
 // @remark debug info by http://github.com/ossrs/srs
-int _srs_state = -1;
+int _srs_state = 0;
 
 void PILI_RTMP_Init(PILI_RTMP *r) {
 #ifdef CRYPTO
@@ -259,7 +259,7 @@ void PILI_RTMP_Init(PILI_RTMP *r) {
     r->ip = 0;
 
   // @remark debug info by http://github.com/ossrs/srs
-  _srs_state = 0;
+  _srs_state = 1;
 }
 
 void PILI_RTMP_EnableWrite(PILI_RTMP *r) {
@@ -928,7 +928,7 @@ int PILI_RTMP_Connect0(PILI_RTMP *r, struct addrinfo *ai, unsigned short port, R
     }
 
     // @remark debug info by http://github.com/ossrs/srs
-    _srs_state = 1;
+    _srs_state = 2;
 
     return TRUE;
 }
@@ -3092,7 +3092,7 @@ int PILI_RTMP_ReadPacket(PILI_RTMP *r, PILI_RTMPPacket *packet) {
 
     // @remark debug info by http://github.com/ossrs/srs
     if (packet->m_packetType == 8 || packet->m_packetType == 9) {
-        _srs_state = 2;
+        _srs_state = 3;
     }
 
     return TRUE;
@@ -3255,7 +3255,7 @@ int PILI_RTMP_SendPacket(PILI_RTMP *r, PILI_RTMPPacket *packet, int queue, RTMPE
     
     // @remark debug info by http://github.com/ossrs/srs
     if (packet->m_packetType == 8 || packet->m_packetType == 9) {
-        _srs_state = 2;
+        _srs_state = 3;
     }
 
     if (prevPacket && packet->m_headerType != RTMP_PACKET_SIZE_LARGE) {
@@ -3433,6 +3433,9 @@ int PILI_RTMP_Serve(PILI_RTMP *r, RTMPError *error) {
 }
 
 void PILI_RTMP_Close(PILI_RTMP *r, RTMPError *error) {
+      // @remark debug info by http://github.com/ossrs/srs
+      _srs_state = 4;
+
     if (r->m_is_closing) {
         return;
     }
