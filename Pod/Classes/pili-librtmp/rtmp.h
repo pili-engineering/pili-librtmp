@@ -356,6 +356,22 @@ int PILI_RTMP_Version();
 int PILI_RTMP_HashSWF(const char *url, unsigned int *size, unsigned char *hash,
                       int age);
 
+/* 
+ ***********************************************************************
+ * Introduced by SRS, other useful data.
+ ***********************************************************************
+ */
+/*
+ * The received bytes from server. user can use to stat the kbps by:
+ *      rkbps = rbytes * 8 / 1000 / (diff seconds)
+ */
+extern unsigned long _srs_rbytes;
+/*
+ * The sent bytes from server. user can use to stat the kbps by:
+ *      skbps = sbytes * 8 / 1000 / (diff seconds)
+ */
+extern unsigned long _srs_sbytes;
+
 #ifdef __cplusplus
 };
 #endif
