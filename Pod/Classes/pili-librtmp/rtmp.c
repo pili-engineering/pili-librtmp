@@ -226,6 +226,9 @@ void PILI_RTMP_Free(PILI_RTMP *r) {
     free(r);
 }
 
+// @remark debug info by http://github.com/ossrs/srs
+int _srs_state = -1;
+
 void PILI_RTMP_Init(PILI_RTMP *r) {
 #ifdef CRYPTO
     if (!RTMP_TLS_ctx)
@@ -254,6 +257,9 @@ void PILI_RTMP_Init(PILI_RTMP *r) {
 
     r->m_connCallback = NULL;
     r->ip = 0;
+
+  // @remark debug info by http://github.com/ossrs/srs
+  _srs_state = 0;
 }
 
 void PILI_RTMP_EnableWrite(PILI_RTMP *r) {
@@ -920,6 +926,9 @@ int PILI_RTMP_Connect0(PILI_RTMP *r, struct addrinfo *ai, unsigned short port, R
         int on = 1;
         setsockopt(r->m_sb.sb_socket, IPPROTO_TCP, TCP_NODELAY, (char *)&on, sizeof(on));
     }
+
+    // @remark debug info by http://github.com/ossrs/srs
+    _srs_state = 1;
 
     return TRUE;
 }
@@ -3081,6 +3090,11 @@ int PILI_RTMP_ReadPacket(PILI_RTMP *r, PILI_RTMPPacket *packet) {
         packet->m_body = NULL; /* so it won't be erased on free */
     }
 
+    // @remark debug info by http://github.com/ossrs/srs
+    if (packet->m_packetType == 8 || packet->m_packetType == 9) {
+        _srs_state = 2;
+    }
+
     return TRUE;
 }
 
@@ -3238,6 +3252,11 @@ int PILI_RTMP_SendPacket(PILI_RTMP *r, PILI_RTMPPacket *packet, int queue, RTMPE
     char *buffer, *tbuf = NULL, *toff = NULL;
     int nChunkSize;
     int tlen;
+    
+    // @remark debug info by http://github.com/ossrs/srs
+    if (packet->m_packetType == 8 || packet->m_packetType == 9) {
+        _srs_state = 2;
+    }
 
     if (prevPacket && packet->m_headerType != RTMP_PACKET_SIZE_LARGE) {
         /* compress a bit by using the prev packet's attributes */
