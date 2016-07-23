@@ -353,8 +353,21 @@ int PILI_RTMP_Write(PILI_RTMP *r, const char *buf, int size, RTMPError *error);
 int PILI_RTMP_Version();
 
 /* hashswf.c */
-int PILI_RTMP_HashSWF(const char *url, unsigned int *size, unsigned char *hash,
-                      int age);
+int PILI_RTMP_HashSWF(const char *url, unsigned int *size, unsigned char *hash, int age);
+
+typedef struct pili_ips_ret{
+    char* ips[1];
+}pili_ips_ret;
+
+typedef pili_ips_ret* (*pili_dns_callback)(const char* host);
+    
+void pili_free_ips_ret(pili_ips_ret *ip_list);
+
+int pili_getaddrinfo(const char *hostname, const char *servname, const struct addrinfo *hints, struct addrinfo **res);
+
+void pili_freeaddrinfo(struct addrinfo *ai);
+
+void pili_set_dns_callback(pili_dns_callback cb);
 
 #ifdef __cplusplus
 };
