@@ -352,6 +352,8 @@ int PILI_RTMP_Write(PILI_RTMP *r, const char *buf, int size, RTMPError *error);
 
 int PILI_RTMP_Version();
 
+const char * PILI_RTMP_GetReqId();
+
 /* hashswf.c */
 int PILI_RTMP_HashSWF(const char *url, unsigned int *size, unsigned char *hash,
                       int age);
