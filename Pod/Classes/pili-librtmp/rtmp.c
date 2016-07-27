@@ -52,7 +52,7 @@ TLS_CTX RTMP_TLS_ctx;
 static const int packetSize[] = {12, 8, 4, 1};
 
 int PILI_RTMP_ctrlC;
-char reqid[30];
+static char reqid[30];
 
 const char PILI_RTMPProtocolStrings[][7] = {
     "RTMP",
@@ -1004,7 +1004,7 @@ int PILI_RTMP_Connect1(PILI_RTMP *r, PILI_RTMPPacket *cp, RTMPError *error) {
 
 int PILI_RTMP_Connect(PILI_RTMP *r, PILI_RTMPPacket *cp, RTMPError *error) {
     //获取hub
-    char hub[4];
+    char hub[5] = {0};
     if (r->Link.app.av_len>4) {
         strncpy(hub, r->Link.app.av_val,4);
     }else if(r->Link.app.av_len>0){
@@ -1017,8 +1017,8 @@ int PILI_RTMP_Connect(PILI_RTMP *r, PILI_RTMPPacket *cp, RTMPError *error) {
         char tempTime[20]={0};
         sprintf(tempTime,"%ld",nowtime);
         reqid[0] = '\0';
-        strcat(reqid, hub);
-        strcat(reqid, tempTime);
+        strncat(reqid, hub, strlen(hub));
+        strncat(reqid, tempTime, strlen(tempTime));
     }
 
     struct PILI_CONNECTION_TIME conn_time;
@@ -1629,7 +1629,7 @@ SAVC(secureToken);
 SAVC(secureTokenResponse);
 SAVC(type);
 SAVC(nonprivate);
-SAVC(reqid);
+SAVC(xreqid);
 
 static int
     SendConnectPacket(PILI_RTMP *r, PILI_RTMPPacket *cp, RTMPError *error) {
@@ -1661,7 +1661,7 @@ static int
     requestId.av_len = (int)strlen(reqid);
         
     if (requestId.av_len){
-        enc = AMF_EncodeNamedString(enc,pend,&av_reqid,&requestId);
+        enc = AMF_EncodeNamedString(enc,pend,&av_xreqid,&requestId);
         if (!enc)
             return FALSE;
     }
@@ -4325,6 +4325,6 @@ int PILI_RTMP_Version() {
     return MAJOR * 100 * 100 + MINOR * 100 + PATCH;
 }
 
-char * PILI_Get_ReqId(){
+const char * PILI_RTMP_GetReqId(){
     return reqid;
 }
