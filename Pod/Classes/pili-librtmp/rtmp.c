@@ -32,6 +32,7 @@
 
 #include "log.h"
 #include "rtmp_sys.h"
+#include "time.h"
 
 #ifdef CRYPTO
 #ifdef USE_POLARSSL
@@ -51,6 +52,7 @@ TLS_CTX RTMP_TLS_ctx;
 static const int packetSize[] = {12, 8, 4, 1};
 
 int PILI_RTMP_ctrlC;
+char reqid[30];
 
 const char PILI_RTMPProtocolStrings[][7] = {
     "RTMP",
@@ -1001,6 +1003,24 @@ int PILI_RTMP_Connect1(PILI_RTMP *r, PILI_RTMPPacket *cp, RTMPError *error) {
 }
 
 int PILI_RTMP_Connect(PILI_RTMP *r, PILI_RTMPPacket *cp, RTMPError *error) {
+    //获取hub
+    char hub[4];
+    if (r->Link.app.av_len>4) {
+        strncpy(hub, r->Link.app.av_val,4);
+    }else if(r->Link.app.av_len>0){
+        strncpy(hub, r->Link.app.av_val,r->Link.app.av_len);
+    }
+    
+    if (strlen(hub)>0) {
+        time_t nowtime;
+        time ( &nowtime );
+        char tempTime[20]={0};
+        sprintf(tempTime,"%ld",nowtime);
+        reqid[0] = '\0';
+        strcat(reqid, hub);
+        strcat(reqid, tempTime);
+    }
+
     struct PILI_CONNECTION_TIME conn_time;
     if (!r->Link.hostname.av_len)
         return FALSE;
@@ -1609,6 +1629,7 @@ SAVC(secureToken);
 SAVC(secureTokenResponse);
 SAVC(type);
 SAVC(nonprivate);
+SAVC(reqid);
 
 static int
     SendConnectPacket(PILI_RTMP *r, PILI_RTMPPacket *cp, RTMPError *error) {
@@ -1635,6 +1656,16 @@ static int
     enc = AMF_EncodeNamedString(enc, pend, &av_app, &r->Link.app);
     if (!enc)
         return FALSE;
+    AVal requestId;
+    requestId.av_val = reqid;
+    requestId.av_len = (int)strlen(reqid);
+        
+    if (requestId.av_len){
+        enc = AMF_EncodeNamedString(enc,pend,&av_reqid,&requestId);
+        if (!enc)
+            return FALSE;
+    }
+
     if (r->Link.protocol & RTMP_FEATURE_WRITE) {
         enc = AMF_EncodeNamedString(enc, pend, &av_type, &av_nonprivate);
         if (!enc)
@@ -4292,4 +4323,8 @@ int PILI_RTMP_Write(PILI_RTMP *r, const char *buf, int size, RTMPError *error) {
 
 int PILI_RTMP_Version() {
     return MAJOR * 100 * 100 + MINOR * 100 + PATCH;
+}
+
+char * PILI_Get_ReqId(){
+    return reqid;
 }
