@@ -750,7 +750,7 @@ static int add_addr_info(PILI_RTMP *r, struct addrinfo *hints, struct addrinfo *
         RTMPError_Alloc(error, strlen(msg));
         error->code = RTMPErrorAccessDNSFailed;
         strcpy(error->message, msg);
-        RTMP_Log(RTMP_LOGERROR, "Problem accessing the DNS. (addr: %s)", hostname);
+        RTMP_Log(RTMP_LOGERROR, "Problem accessing the DNS. %d (addr: %s) (port: %s)", addrret, hostname, portstr);
         ret = FALSE;
     }
 
@@ -944,9 +944,10 @@ int PILI_RTMP_Connect(PILI_RTMP *r, PILI_RTMPPacket *cp, RTMPError *error) {
         return FALSE;
 
     struct addrinfo hints = {0}, *ai, *cur_ai;
-    hints.ai_family = PF_UNSPEC;
+
+    hints.ai_family = AF_UNSPEC;
     hints.ai_socktype = SOCK_STREAM;
-    hints.ai_flags = AI_DEFAULT;
+
     unsigned short port;
     if (r->Link.socksport) {
         port = r->Link.socksport;
