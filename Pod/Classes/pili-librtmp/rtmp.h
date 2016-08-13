@@ -103,6 +103,7 @@ typedef struct PILI_RTMPPacket {
     uint32_t m_nBytesRead;
     PILI_RTMPChunk *m_chunk;
     char *m_body;
+    int m_useExtTimestamp;
 } PILI_RTMPPacket;
 
 typedef struct PILI_RTMPSockBuf {

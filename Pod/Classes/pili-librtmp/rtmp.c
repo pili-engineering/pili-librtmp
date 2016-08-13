@@ -2976,6 +2976,7 @@ int PILI_RTMP_ReadPacket(PILI_RTMP *r, PILI_RTMPPacket *packet) {
     char *header = (char *)hbuf;
     int nSize, hSize, nToRead, nChunk;
     int didAlloc = FALSE;
+    int didTestExtTimestamp = FALSE;
 
     RTMP_Log(RTMP_LOGDEBUG2, "%s: fd=%d", __FUNCTION__, r->m_sb.sb_socket);
 
@@ -3032,6 +3033,7 @@ int PILI_RTMP_ReadPacket(PILI_RTMP *r, PILI_RTMPPacket *packet) {
 
     if (nSize >= 3) {
         packet->m_nTimeStamp = AMF_DecodeInt24(header);
+        packet->m_useExtTimestamp = FALSE;
 
         /*RTMP_Log(RTMP_LOGDEBUG, "%s, reading PILI_RTMP packet chunk on channel %x, headersz %i, timestamp %i, abs timestamp %i", __FUNCTION__, packet.m_nChannel, nSize, packet.m_nTimeStamp, packet.m_hasAbsTimestamp); */
 
@@ -3054,8 +3056,17 @@ int PILI_RTMP_ReadPacket(PILI_RTMP *r, PILI_RTMPPacket *packet) {
                 return FALSE;
             }
             packet->m_nTimeStamp = AMF_DecodeInt32(header + nSize);
+            packet->m_useExtTimestamp = TRUE;
             hSize += 4;
         }
+    } else if (packet->m_nTimeStamp >= 0xffffff){
+        if (ReadN(r, header + nSize, 4) != 4) {
+            RTMP_Log(RTMP_LOGERROR, "%s, failed to read extended timestamp",
+                     __FUNCTION__);
+            return FALSE;
+        }
+        packet->m_nTimeStamp = AMF_DecodeInt32(header + nSize);
+        hSize += 4;
     }
 
     RTMP_LogHexString(RTMP_LOGDEBUG2, (uint8_t *)hbuf, hSize);
