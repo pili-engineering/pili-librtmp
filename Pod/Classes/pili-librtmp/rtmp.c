@@ -2977,7 +2977,6 @@ int PILI_RTMP_ReadPacket(PILI_RTMP *r, PILI_RTMPPacket *packet) {
     char *header = (char *)hbuf;
     int nSize, hSize, nToRead, nChunk;
     int didAlloc = FALSE;
-    int didTestExtTimestamp = FALSE;
 
     RTMP_Log(RTMP_LOGDEBUG2, "%s: fd=%d", __FUNCTION__, r->m_sb.sb_socket);
 
