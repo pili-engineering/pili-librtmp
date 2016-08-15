@@ -778,6 +778,7 @@ int PILI_RTMP_Connect0(PILI_RTMP *r, struct addrinfo *ai, unsigned short port, R
 #ifdef RTMP_FEATURE_NONBLOCK
         /* set socket non block */
         {
+            RTMP_Log(RTMP_LOGCRIT, "%s set socket non block", __FUNCTION__);
             int flags = fcntl(r->m_sb.sb_socket, F_GETFL, 0);
             if (fcntl(r->m_sb.sb_socket, F_SETFL, flags | O_NONBLOCK) < 0) {
                 RTMP_Log(RTMP_LOGERROR, "%s, set socket non block failed", __FUNCTION__);
@@ -1570,7 +1571,7 @@ static int
                Timeouts only have effect for system calls that perform socket I/O (e.g., read(2), recvmsg(2), send(2), sendmsg(2));
                timeouts have no effect for select(2), poll(2), epoll_wait(2), and so on.
             */
-            if ((sockerr == EINTR && !PILI_RTMP_ctrlC ) || sockerr == EAGAIN)
+            if (sockerr == EINTR && !PILI_RTMP_ctrlC)
                 continue;
 
 #ifdef RTMP_FEATURE_NONBLOCK
@@ -3032,6 +3033,7 @@ int PILI_RTMP_ReadPacket(PILI_RTMP *r, PILI_RTMPPacket *packet) {
 
     if (nSize >= 3) {
         packet->m_nTimeStamp = AMF_DecodeInt24(header);
+        packet->m_useExtTimestamp = FALSE;
 
         /*RTMP_Log(RTMP_LOGDEBUG, "%s, reading PILI_RTMP packet chunk on channel %x, headersz %i, timestamp %i, abs timestamp %i", __FUNCTION__, packet.m_nChannel, nSize, packet.m_nTimeStamp, packet.m_hasAbsTimestamp); */
 
@@ -3054,8 +3056,17 @@ int PILI_RTMP_ReadPacket(PILI_RTMP *r, PILI_RTMPPacket *packet) {
                 return FALSE;
             }
             packet->m_nTimeStamp = AMF_DecodeInt32(header + nSize);
+            packet->m_useExtTimestamp = TRUE;
             hSize += 4;
         }
+    } else if (packet->m_nTimeStamp >= 0xffffff){
+        if (ReadN(r, header + nSize, 4) != 4) {
+            RTMP_Log(RTMP_LOGERROR, "%s, failed to read extended timestamp",
+                     __FUNCTION__);
+            return FALSE;
+        }
+        packet->m_nTimeStamp = AMF_DecodeInt32(header + nSize);
+        hSize += 4;
     }
 
     RTMP_LogHexString(RTMP_LOGDEBUG2, (uint8_t *)hbuf, hSize);

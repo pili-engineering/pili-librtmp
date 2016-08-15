@@ -50,7 +50,7 @@ extern "C" {
 #define RTMP_FEATURE_MFP 0x08 /* not yet supported */
 #define RTMP_FEATURE_WRITE 0x10 /* publish, not play */
 #define RTMP_FEATURE_HTTP2 0x20 /* server-side rtmpt */
-#define RTMP_FEATURE_NONBLOCK 0x40 /* non block socket */
+//#define RTMP_FEATURE_NONBLOCK 0x40 /* non block socket */
 
 #define RTMP_PROTOCOL_UNDEFINED -1
 #define RTMP_PROTOCOL_RTMP 0
@@ -103,6 +103,7 @@ typedef struct PILI_RTMPPacket {
     uint32_t m_nBytesRead;
     PILI_RTMPChunk *m_chunk;
     char *m_body;
+    int m_useExtTimestamp;
 } PILI_RTMPPacket;
 
 typedef struct PILI_RTMPSockBuf {
