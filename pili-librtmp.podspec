@@ -9,7 +9,7 @@
 
 Pod::Spec.new do |s|
   s.name             = "pili-librtmp"
-  s.version          = "1.0.3.1"
+  s.version          = "1.0.4"
   s.summary          = "pili-librtmp is a RTMP client library."
   s.homepage         = "https://github.com/pili-engineering/pili-librtmp"
   s.license          = 'LGPL'
