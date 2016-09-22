@@ -19,4 +19,5 @@ Pod::Spec.new do |s|
   s.platform     = :ios, '7.0'
   s.requires_arc = true
   s.source_files = "Pod/Classes/pili-librtmp/*.{h,c}"
+  s.exclude_files = "Pod/Classes/pili-librtmp/dh.h", "Pod/Classes/pili-librtmp/handshake.h"
 end
