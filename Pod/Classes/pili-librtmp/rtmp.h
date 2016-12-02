@@ -353,7 +353,7 @@ int PILI_RTMP_Version();
 
 const char * PILI_RTMP_GetReqId();
     
-const char * PILI_RTMP_GetRemoteId();
+const char * PILI_RTMP_GetRemoteIp();
 
 
 /* hashswf.c */

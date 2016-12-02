@@ -4184,6 +4184,6 @@ const char * PILI_RTMP_GetReqId(){
     return reqid;
 }
 
-const char * PILI_RTMP_GetRemoteId(){
+const char * PILI_RTMP_GetRemoteIp(){
     return remoteip;
 }
