@@ -759,7 +759,7 @@ static int PILI_add_addr_info(PILI_RTMP *r, struct addrinfo *hints, struct addri
         PILI_RTMP_Log(PILI_RTMP_LOGERROR, "Problem accessing the DNS. %d (addr: %s) (port: %s)", addrret, hostname, portstr);
         ret = FALSE;
     }else{
-        memset(remoteip, '\0', strlen(remoteip));
+        memset(remoteip,0, strlen(remoteip));
 
         if(((struct addrinfo *)*ai)->ai_family == AF_INET6){
             struct sockaddr_in6 * addrIn6;
