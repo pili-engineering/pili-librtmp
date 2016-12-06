@@ -764,7 +764,7 @@ static int PILI_add_addr_info(PILI_RTMP *r, struct addrinfo *hints, struct addri
         if(((struct addrinfo *)*ai)->ai_family == AF_INET6){
             struct sockaddr_in6 * addrIn6;
             addrIn6 = (struct sockaddr_in6 *)((struct addrinfo *)*ai)->ai_addr;
-            char ipbuf[40];
+            char ipbuf[48];
             const char * remote_ip = inet_ntop(AF_INET6,&addrIn6->sin6_addr, ipbuf, sizeof(ipbuf));
             strncat(remoteip,remote_ip , strlen(remote_ip));
 
