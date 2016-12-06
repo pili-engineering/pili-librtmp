@@ -759,12 +759,22 @@ static int PILI_add_addr_info(PILI_RTMP *r, struct addrinfo *hints, struct addri
         PILI_RTMP_Log(PILI_RTMP_LOGERROR, "Problem accessing the DNS. %d (addr: %s) (port: %s)", addrret, hostname, portstr);
         ret = FALSE;
     }else{
-        remoteip[0] = '\0';
-        struct sockaddr_in *addr;
-        addr = (struct sockaddr_in *)((struct addrinfo *)*ai)->ai_addr;
-        char ipbuf[16];
-        const char * remote_ip = inet_ntop(AF_INET,&addr->sin_addr, ipbuf, 16);
-        strncat(remoteip, remote_ip, strlen(remote_ip));
+        if(((struct addrinfo *)*ai)->ai_family == AF_INET6){
+            struct sockaddr_in *addr;
+            addr = (struct sockaddr_in *)((struct addrinfo *)*ai)->ai_addr;
+            char ipbuf[16];
+            const char * remote_ip = inet_ntop(AF_INET6,&addr->sin_addr, ipbuf, sizeof(ipbuf));
+            strncat(remoteip, remote_ip, strlen(remote_ip));
+            
+        }else{
+            struct sockaddr_in6 * addrIn6;
+            addrIn6 = (struct sockaddr_in6 *)((struct addrinfo *)*ai)->ai_addr;
+            char ipbuf[32];
+            const char * remote_ip = inet_ntop(AF_INET,&addrIn6->sin6_addr, ipbuf, sizeof(ipbuf));
+            strncat(remoteip, remote_ip, strlen(remote_ip));
+            
+        }
+
     }
 
     if (hostname != host->av_val) {
