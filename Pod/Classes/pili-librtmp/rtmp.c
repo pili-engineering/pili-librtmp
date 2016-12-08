@@ -53,6 +53,8 @@ static const int packetSize[] = {12, 8, 4, 1};
 
 int PILI_RTMP_ctrlC;
 static char reqid[30];
+static char remoteip[48];
+
 
 const char PILI_RTMPProtocolStrings[][7] = {
     "RTMP",
@@ -756,6 +758,25 @@ static int PILI_add_addr_info(PILI_RTMP *r, struct addrinfo *hints, struct addri
         strcpy(error->message, msg);
         PILI_RTMP_Log(PILI_RTMP_LOGERROR, "Problem accessing the DNS. %d (addr: %s) (port: %s)", addrret, hostname, portstr);
         ret = FALSE;
+    }else{
+        memset(remoteip,0, strlen(remoteip));
+
+        if(((struct addrinfo *)*ai)->ai_family == AF_INET6){
+            struct sockaddr_in6 * addrIn6;
+            addrIn6 = (struct sockaddr_in6 *)((struct addrinfo *)*ai)->ai_addr;
+            char ipbuf[48];
+            const char * remote_ip = inet_ntop(AF_INET6,&addrIn6->sin6_addr, ipbuf, sizeof(ipbuf));
+            strncat(remoteip,remote_ip , strlen(remote_ip));
+
+        }else{
+            struct sockaddr_in *addr;
+            addr = (struct sockaddr_in *)((struct addrinfo *)*ai)->ai_addr;
+            char ipbuf[16];
+            const char * remote_ip = inet_ntop(AF_INET,&addr->sin_addr, ipbuf, sizeof(ipbuf));
+            strncat(remoteip, remote_ip, strlen(remote_ip));
+            
+        }
+
     }
 
     if (hostname != host->av_val) {
@@ -4339,4 +4360,8 @@ int PILI_RTMP_Version() {
 
 const char * PILI_RTMP_GetReqId(){
     return reqid;
+}
+
+const char * PILI_RTMP_GetRemoteIp(){
+    return remoteip;
 }
