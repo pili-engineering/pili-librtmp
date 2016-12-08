@@ -51,7 +51,7 @@ static const int packetSize[] = {12, 8, 4, 1};
 
 int PILI_RTMP_ctrlC;
 static char reqid[30];
-static char remoteip[40];
+static char remoteip[48];
 
 
 const char PILI_RTMPProtocolStrings[][7] = {
