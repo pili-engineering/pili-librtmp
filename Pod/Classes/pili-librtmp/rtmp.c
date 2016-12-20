@@ -303,7 +303,7 @@ void PILI_RTMP_UpdateBufferMS(PILI_RTMP *r, RTMPError *error) {
 #endif
 #define DEF_VERSTR OSS " 10,0,32,18"
 static const char DEFAULT_FLASH_VER[] = DEF_VERSTR;
-const PILI_AVal RTMP_DefaultFlashVer =
+const PILI_AVal PILI_RTMP_DefaultFlashVer =
     {(char *)DEFAULT_FLASH_VER, sizeof(DEFAULT_FLASH_VER) - 1};
 
 void PILI_RTMP_SetupStream(PILI_RTMP *r,
@@ -395,7 +395,7 @@ void PILI_RTMP_SetupStream(PILI_RTMP *r,
     if (flashVer && flashVer->av_len)
         r->Link.flashVer = *flashVer;
     else
-        r->Link.flashVer = RTMP_DefaultFlashVer;
+        r->Link.flashVer = PILI_RTMP_DefaultFlashVer;
     if (subscribepath && subscribepath->av_len)
         r->Link.subscribepath = *subscribepath;
     r->Link.seekTime = dStart;
