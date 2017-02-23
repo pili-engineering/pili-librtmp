@@ -1588,6 +1588,11 @@ static int
         if (!enc)
             return FALSE;
     }
+    if (r->Link.pageUrl.av_len) {
+        enc = AMF_EncodeNamedString(enc, pend, &av_pageUrl, &r->Link.pageUrl);
+        if (!enc)
+            return FALSE;
+    }
     if (!(r->Link.protocol & RTMP_FEATURE_WRITE)) {
         enc = AMF_EncodeNamedBoolean(enc, pend, &av_fpad, FALSE);
         if (!enc)
@@ -1604,11 +1609,6 @@ static int
         enc = AMF_EncodeNamedNumber(enc, pend, &av_videoFunction, 1.0);
         if (!enc)
             return FALSE;
-        if (r->Link.pageUrl.av_len) {
-            enc = AMF_EncodeNamedString(enc, pend, &av_pageUrl, &r->Link.pageUrl);
-            if (!enc)
-                return FALSE;
-        }
     }
     if (r->m_fEncoding != 0.0 || r->m_bSendEncoding) { /* AMF0, AMF3 not fully supported yet */
         enc = AMF_EncodeNamedNumber(enc, pend, &av_objectEncoding, r->m_fEncoding);
