@@ -754,8 +754,10 @@ static int PILI_add_addr_info(PILI_RTMP *r, struct addrinfo *hints, struct addri
         strcat(msg, hostname);
 
         PILI_RTMPError_Alloc(error, strlen(msg));
-        error->code = PILI_RTMPErrorAccessDNSFailed;
-        strcpy(error->message, msg);
+        if (error) {
+            error->code = PILI_RTMPErrorAccessDNSFailed;
+            strcpy(error->message, msg);
+        }
         PILI_RTMP_Log(PILI_RTMP_LOGERROR, "Problem accessing the DNS. %d (addr: %s) (port: %s)", addrret, hostname, portstr);
         ret = FALSE;
     }else{
