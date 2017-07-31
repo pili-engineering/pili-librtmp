@@ -362,6 +362,32 @@ const char * PILI_RTMP_GetRemoteIp();
 int PILI_RTMP_HashSWF(const char *url, unsigned int *size, unsigned char *hash,
                       int age);
 
+/* 
+ ***********************************************************************
+ * Introduced by SRS, export the ip/pid/cid of BMS
+ ***********************************************************************
+ */
+/*
+ * The exported ip of server, for example, we use DNS to connect to server,
+ * but the ip resolved by DNS system maybe virtual ip, that is, the "real ip"
+ * only known by server itself and return by the rtmp connect result or flv 
+ * metadata.
+ */
+extern char* _srs_ip;
+/*
+ * The pid of BMS, used to query the detail log of client.
+ * A BMS server may restart and the pid changed.
+ */
+extern int _srs_pid;
+/*
+ * The cid of BMS, used to query the detail log of client.
+ * A connection of a process(identify by pid) is unique and its id(cid) is
+ * unique also. The cid generally is a thread or connection or logic unit,
+ * for example, cid of rtmp client is the rtmp connection, while cid of hls+
+ * is a virtual connection which merge many http connections.
+ */
+extern int _srs_cid;
+
 #ifdef __cplusplus
 };
 #endif

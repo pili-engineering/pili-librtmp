@@ -1234,6 +1234,15 @@ int PILI_RTMP_GetNextMediaPacket(PILI_RTMP *r, PILI_RTMPPacket *packet) {
     return bHasMediaPacket;
 }
 
+// @remark debug info by http://github.com/ossrs/srs
+char* _srs_ip = NULL;
+int _srs_pid = 0;
+int _srs_cid = 0;
+// Internal variables.
+static const AVal _const_srs_server_ip = AVC("srs_server_ip");
+static const AVal _const_srs_pid = AVC("srs_pid");
+static const AVal _const_srs_cid = AVC("srs_id");
+
 int PILI_RTMP_ClientPacket(PILI_RTMP *r, PILI_RTMPPacket *packet) {
     int bHasMediaPacket = 0;
     switch (packet->m_packetType) {
@@ -1314,6 +1323,131 @@ int PILI_RTMP_ClientPacket(PILI_RTMP *r, PILI_RTMPPacket *packet) {
 
 	   obj.Dump();
 #endif
+            
+            // @remark debug info by http://github.com/ossrs/srs
+            while (1) {
+                // String(_result)
+                char* p = packet->m_body;
+                int nb = packet->m_nBodySize;
+                // Marker.
+                if (nb < 1) {
+                    RTMP_Log(RTMP_LOGERROR, "ignore string marker for nb=%d", nb);
+                    break;
+                }
+                AMFDataType t = (AMFDataType)p[0];
+                if (t != AMF_STRING) {
+                    RTMP_Log(RTMP_LOGERROR, "ignore string marker for type=%d", t);
+                    break;
+                }
+                nb--; p++;
+                // String content.
+                if (nb < 2) {
+                    RTMP_Log(RTMP_LOGERROR, "ignore string data for nb=%d", nb);
+                    break;
+                }
+                AVal _result;
+                AMF_DecodeString(p, &_result);
+                nb -= (int)_result.av_len + 2; p += (int)_result.av_len + 2;
+                
+                // Number(0.0)
+                // Marker
+                if (nb < 1) {
+                    RTMP_Log(RTMP_LOGERROR, "ignore number marker for nb=%d", nb);
+                    break;
+                }
+                t = (AMFDataType)p[0];
+                if (t != AMF_NUMBER) {
+                    RTMP_Log(RTMP_LOGERROR, "ignore number marker for type=%d", t);
+                    break;
+                }
+                nb--; p++;
+                // Number content.
+                if (nb < 8) {
+                    RTMP_Log(RTMP_LOGERROR, "ignore number data for nb=%d", nb);
+                    break;
+                }
+                double tid = AMF_DecodeNumber(p); (void)tid;
+                nb -= 8; p += 8;
+                
+                // Object
+                // Marker
+                if (nb < 1) {
+                    RTMP_Log(RTMP_LOGERROR, "ignore object marker for nb=%d", nb);
+                    break;
+                }
+                t = (AMFDataType)p[0];
+                if (t != AMF_OBJECT) {
+                    RTMP_Log(RTMP_LOGERROR, "ignore object marker for type=%d", t);
+                    break;
+                }
+                nb--; p++;
+                // Object info content
+                AMFObject obj;
+                if (nb < 3) {
+                    RTMP_Log(RTMP_LOGERROR, "ignore object eof for nb=%d", nb);
+                    break;
+                }
+                int nRes = -1;
+                if ((nRes = AMF_Decode(&obj, p, nb, TRUE)) < 0) {
+                    RTMP_Log(RTMP_LOGERROR, "decode object failed, ret=%d", nRes);
+                    break;
+                }
+                nb -= nRes; p += nRes;
+                
+                // Object
+                // Marker
+                if (nb < 1) {
+                    RTMP_Log(RTMP_LOGERROR, "ignore object marker for nb=%d", nb);
+                    break;
+                }
+                t = (AMFDataType)p[0];
+                if (t != AMF_OBJECT) {
+                    RTMP_Log(RTMP_LOGERROR, "ignore object marker for type=%d", t);
+                    break;
+                }
+                nb--; p++;
+                // Object data content
+                if (nb < 3) {
+                    RTMP_Log(RTMP_LOGERROR, "ignore object eof for nb=%d", nb);
+                    break;
+                }
+                if ((nRes = AMF_Decode(&obj, p, nb, TRUE)) < 0) {
+                    RTMP_Log(RTMP_LOGERROR, "decode object failed, ret=%d", nRes);
+                    break;
+                }
+                nb -= nRes; p += nRes;
+                // Parse data object.
+                int i,j;
+                for (i = 0; i < obj.o_num; i++) {
+                    AMFObjectProperty* prop = &obj.o_props[i];
+                    if (prop->p_type == AMF_OBJECT || prop->p_type == AMF_ECMA_ARRAY) {
+                        obj = prop->p_vu.p_object;
+                        for (j = 0; j < obj.o_num; j++) {
+                            prop = &obj.o_props[j];
+                            if (AVMATCH(&prop->p_name, &_const_srs_server_ip)) {
+                                if (_srs_ip) {
+                                    free(_srs_ip);
+                                }
+                                _srs_ip = (char*)malloc(prop->p_vu.p_aval.av_len + 1);
+                                memcpy(_srs_ip, prop->p_vu.p_aval.av_val, prop->p_vu.p_aval.av_len);
+                                _srs_ip[prop->p_vu.p_aval.av_len] = 0;
+                            } else if (AVMATCH(&prop->p_name, &_const_srs_pid)) {
+                                _srs_pid = (int)prop->p_vu.p_number;
+                            } else if (AVMATCH(&prop->p_name, &_const_srs_cid)) {
+                                _srs_cid = (int)prop->p_vu.p_number;
+                            }
+                        }
+                        break;
+                    }
+                }
+                
+                // Print info.
+                if (_srs_pid > 0) {
+                    RTMP_Log(RTMP_LOGINFO, "SRS ip=%s, pid=%d, cid=%d", _srs_ip, _srs_pid, _srs_cid);
+                }
+                
+                break;
+            }
 
             if (PILI_HandleInvoke(r, packet->m_body + 1, packet->m_nBodySize - 1) == 1)
                 bHasMediaPacket = 2;
