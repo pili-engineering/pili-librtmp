@@ -1386,6 +1386,10 @@ extern FILE *netstackdump;
 extern FILE *netstackdump_read;
 #endif
 
+// @remark debug info by http://github.com/ossrs/srs
+unsigned long _srs_rbytes = 0;
+unsigned long _srs_sbytes = 0;
+
 static int
     PILI_ReadN(PILI_RTMP *r, char *buffer, int n) {
     int nOriginalSize = n;
@@ -1397,6 +1401,9 @@ static int
 #ifdef _DEBUG
     memset(buffer, 0, n);
 #endif
+  
+    // @remark debug info by http://github.com/ossrs/srs
+    _srs_rbytes += n;
 
     ptr = buffer;
     while (n > 0) {
@@ -1525,6 +1532,9 @@ static int
         RC4_encrypt2(r->Link.rc4keyOut, n, buffer, ptr);
     }
 #endif
+  
+    // @remark debug info by http://github.com/ossrs/srs
+    _srs_sbytes += n;
 
 #ifdef RTMP_FEATURE_NONBLOCK
     SET_RCVTIMEO(tv, r->Link.timeout);
