@@ -362,6 +362,17 @@ const char * PILI_RTMP_GetRemoteIp();
 int PILI_RTMP_HashSWF(const char *url, unsigned int *size, unsigned char *hash,
                       int age);
 
+/* 
+ ***********************************************************************
+ * Introduced by SRS, other useful data.
+ ***********************************************************************
+ */
+/*
+ * The current state of client.
+ *  0,init 1,idle 2,connected 3,working 4,closed
+ */
+extern int _srs_state;
+
 #ifdef __cplusplus
 };
 #endif
