@@ -32,7 +32,7 @@
 
 #include "log.h"
 #include "rtmp_sys.h"
-#include "time.h"
+#include <sys/time.h>
 
 #ifdef CRYPTO
 #ifdef USE_POLARSSL
